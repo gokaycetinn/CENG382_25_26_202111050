@@ -28,6 +28,13 @@ function loginUser() {
         userData.push({ username, password });
         console.log("Stored User Data:", userData);
     } 
+
+    if (username === 'admin' && password === 'admin') {
+        window.location.href = "table.html"; // 🔹 Başarılı girişte yönlendirme
+    } else {
+        alert("Username or password is incorrect.");
+    }
+    
 }
 // Updates the clock every second and displays the current time //
 function updateClock() {

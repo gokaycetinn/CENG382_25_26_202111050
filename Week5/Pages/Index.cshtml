@@ -1,0 +1,98 @@
+﻿@page
+@model Week5.Pages.IndexModel
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Management</title>
+
+    <!-- Bootstrap CSS Link -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Add/Edit Class Section -->
+            <div class="col-md-4">
+                <div class="form-section">
+                    <h3 class="mb-4">@(Model.NewClass.Id == 0 ? "Add Class" : "Edit Class")</h3>
+                    <form method="post">
+                        <input type="hidden" asp-for="NewClass.Id" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Class Name</label>
+                            <input type="text" class="form-control" asp-for="NewClass.ClassName" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Student Count</label>
+                            <input type="number" class="form-control" asp-for="NewClass.StudentCount" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type ="text" class="form-control" asp-for="NewClass.Description"></>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" asp-page-handler="@(Model.NewClass.Id == 0 ? "Add" : "Update")">
+                            @(Model.NewClass.Id == 0 ? "Add" : "Update")
+                        </button>
+                        @if (Model.NewClass.Id != 0)
+                        {
+                            <a href="/" class="btn btn-secondary">Cancel</a>
+                        }
+                    </form>
+                </div>
+            </div>
+
+            <!-- Class List Section -->
+            <div class="col-md-8">
+                <div class="table-section">
+                    <h3 class="mb-4">Class List</h3>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Class Name</th>
+                                <th>Student Count</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Classes)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.ClassName</td>
+                                    <td>@item.StudentCount</td>
+                                    <td>@item.Description</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete">Delete</button>
+                                            </form>
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <button type="submit" class="btn btn-warning btn-sm" asp-page-handler="Edit">Edit</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

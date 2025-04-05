@@ -11,37 +11,65 @@ namespace Week5.Pages
         private static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
         private static int NextId = 1;
 
+        [BindProperty(SupportsGet = true)]
+        public string? SearchTerm { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int PageNumber { get; set; } = 1;
+
+        private const int PageSize = 10;
+
         [BindProperty]
         public ClassInformationModel NewClass { get; set; } = new ClassInformationModel();
 
-        public List<ClassInformationModel> Classes => ClassList;  
+        public List<ClassInformationModel> PagedClasses { get; set; } = new List<ClassInformationModel>();
 
+        public int TotalPages { get; set; }
+
+        /* "Write an OnGet method for Razor Pages that filters by ClassName when the SearchTerm value is entered, 
+        calculates the number of pages according to the total number of records, and lists the data for the relevant page." */
         public void OnGet()
         {
+            var query = ClassList.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                query = query.Where(c => c.ClassName.Contains(SearchTerm, System.StringComparison.OrdinalIgnoreCase));
+            }
+
+            int totalRecords = query.Count();
+            TotalPages = (int)System.Math.Ceiling(totalRecords / (double)PageSize);
+
+            PagedClasses = query
+                .Skip((PageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
         }
 
-        public IActionResult OnPostAdd()
-        {
+       public IActionResult OnPostAdd()
+{
             if (!ModelState.IsValid)
             {
+                
                 return Page();
             }
+
             NewClass.Id = NextId++;
             ClassList.Add(NewClass);
-            NewClass = new ClassInformationModel(); // Formu sıfırla
-            return RedirectToPage();
+            return RedirectToPage(new { PageNumber, SearchTerm });
         }
 
         public IActionResult OnPostDelete(int id)
         {
             var item = ClassList.FirstOrDefault(c => c.Id == id);
             if (item != null)
-            {
                 ClassList.Remove(item);
-            }
-            return RedirectToPage();
+
+            return RedirectToPage(new { PageNumber, SearchTerm });
         }
 
+        /*"Write the OnPostEdit method to find the element with the specified ID and display 
+        the relevant information in the form for editing." */
         public IActionResult OnPostEdit(int id)
         {
             var item = ClassList.FirstOrDefault(c => c.Id == id);
@@ -55,26 +83,29 @@ namespace Week5.Pages
                     Description = item.Description
                 };
             }
+
+            
             return Page();
         }
 
-        public IActionResult OnPostUpdate()
-        {
+       public IActionResult OnPostUpdate()
+{
             if (!ModelState.IsValid)
             {
+                
                 return Page();
             }
 
-            var existingClass = ClassList.FirstOrDefault(c => c.Id == NewClass.Id);
-            if (existingClass != null)
+            var existing = ClassList.FirstOrDefault(c => c.Id == NewClass.Id);
+            if (existing != null)
             {
-                existingClass.ClassName = NewClass.ClassName;
-                existingClass.StudentCount = NewClass.StudentCount;
-                existingClass.Description = NewClass.Description;
+                existing.ClassName = NewClass.ClassName;
+                existing.StudentCount = NewClass.StudentCount;
+                existing.Description = NewClass.Description;
             }
 
-            NewClass = new ClassInformationModel(); // Formu sıfırla
-            return RedirectToPage();
+            return RedirectToPage(new { PageNumber, SearchTerm });
         }
     }
 }
+

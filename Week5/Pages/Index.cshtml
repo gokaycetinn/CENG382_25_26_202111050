@@ -1,95 +1,138 @@
 ﻿@page
 @model Week5.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS Link -->
-    
+    <!-- Bootstrap Darkly Theme -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css">
 
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="~/css/styles.css">
+    <!-- Client-side validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <div class="container mt-5">
         <div class="row">
             <!-- Add/Edit Class Section -->
             <div class="col-md-4">
-                <div class="form-section">
-                    <h3 class="mb-4">@(Model.NewClass.Id == 0 ? "Add Class" : "Edit Class")</h3>
-                    <form method="post">
-                        <input type="hidden" asp-for="NewClass.Id" />
+                <h3 class="mb-4">@(Model.NewClass.Id == 0 ? "Add New Class" : "Edit Class")</h3>
+                <form method="post">
+                    <input type="hidden" asp-for="NewClass.Id" />
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Class Name</label>
+                        <input asp-for="NewClass.ClassName" class="form-control" />
+                        <span asp-validation-for="NewClass.ClassName" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Class Name</label>
-                            <input type="text" class="form-control" asp-for="NewClass.ClassName" required />
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Student Count</label>
+                        <input asp-for="NewClass.StudentCount" class="form-control" type="number" />
+                        <span asp-validation-for="NewClass.StudentCount" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Student Count</label>
-                            <input type="number" class="form-control" asp-for="NewClass.StudentCount" required />
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <input asp-for="NewClass.Description" class="form-control" />
+                        <span asp-validation-for="NewClass.Description" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <input type ="text" class="form-control" asp-for="NewClass.Description"></>
-                        </div>
+                    <button type="submit" class="btn btn-primary" asp-page-handler="@(Model.NewClass.Id == 0 ? "Add" : "Update")">
+                        @(Model.NewClass.Id == 0 ? "Add" : "Update")
+                    </button>
 
-                        <button type="submit" class="btn btn-primary" asp-page-handler="@(Model.NewClass.Id == 0 ? "Add" : "Update")">
-                            @(Model.NewClass.Id == 0 ? "Add" : "Update")
-                        </button>
-                        @if (Model.NewClass.Id != 0)
-                        {
-                            <a href="/" class="btn btn-secondary">Cancel</a>
-                        }
-                    </form>
-                </div>
+                    @if (Model.NewClass.Id != 0)
+                    {
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                    }
+                </form>
             </div>
 
             <!-- Class List Section -->
             <div class="col-md-8">
-                <div class="table-section">
-                    <h3 class="mb-4">Class List</h3>
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
+                <h3 class="mb-4">Class List</h3>
+
+                <!-- Filter Form -->
+                <!-- "Create a structure that displays form validation alerts with custom boxes
+                hides the ID column after filtering, and dynamically manipulates the Razor Pages table."-->
+
+                <form method="get" class="d-flex mb-4">
+                    <div class="input-group w-50">
+                        <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Search...">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+
+                <table class="table table-dark table-striped table-bordered">
+                    <thead>
+                        <tr>
+                             @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
+                             {
                                 <th>ID</th>
-                                <th>Class Name</th>
-                                <th>Student Count</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Classes)
-                            {
-                                <tr>
+                             }
+                    
+                            <th>Class Name</th>
+                            <th>Student Count</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PagedClasses)
+                        {
+                            <tr>
+                                @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
+                                {
                                     <td>@item.Id</td>
-                                    <td>@item.ClassName</td>
-                                    <td>@item.StudentCount</td>
-                                    <td>@item.Description</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <form method="post" class="d-inline">
-                                                <input type="hidden" name="id" value="@item.Id" />
-                                                <button type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete">Delete</button>
-                                            </form>
-                                            <form method="post" class="d-inline">
-                                                <input type="hidden" name="id" value="@item.Id" />
-                                                <button type="submit" class="btn btn-warning btn-sm" asp-page-handler="Edit">Edit</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                 }
+                                
+                                <td>@item.ClassName</td>
+                                <td>@item.StudentCount</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete">Delete</button>
+                                    </form>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-warning btn-sm" asp-page-handler="Edit">Edit</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Pagination Controls -->
+                <!-- "Write Razor code that creates a dynamic pagination control so that the search filter 
+                is preserved and the current page information is displayed." -->
+                
+                <div class="d-flex justify-content-start mb-3">
+                    <div>
+                        <form method="get" class="d-inline">
+                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+                            <input type="hidden" name="PageNumber" value="@(Model.PageNumber - 1)" />
+                            <button class="btn btn-outline-light" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
+                        </form>
+
+                        <form method="get" class="d-inline">
+                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+                            <input type="hidden" name="PageNumber" value="@(Model.PageNumber + 1)" />
+                            <button class="btn btn-outline-light" @(Model.PagedClasses.Count < 10 ? "disabled" : "")>Next</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mb-3">
+                    <span>Page @Model.PageNumber</span>
                 </div>
             </div>
         </div>

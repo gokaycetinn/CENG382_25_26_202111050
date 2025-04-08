@@ -27,6 +27,9 @@ namespace Week5.Pages
 
         public int TotalPages { get; set; }
 
+        /*Write an OnGet method in Razor Pages that creates 100 sample class records just once, 
+        filters by ClassName,calculates the total number of pages based on the page size, 
+        and returns the data for the current page. */
         public void OnGet()
         {
             
@@ -82,6 +85,8 @@ namespace Week5.Pages
             return RedirectToPage(new { PageNumber, SearchTerm });
         }
 
+        /* Write an OnPostEdit method in Razor Pages that finds a class by its ID from an in-memory list, 
+        and if found, populates a form model (NewClass) with its data to allow editing on the page.*/
         public IActionResult OnPostEdit(int id)
         {
             var item = ClassList.FirstOrDefault(c => c.Id == id);
@@ -99,6 +104,8 @@ namespace Week5.Pages
             return Page();
         }
 
+        /*In Razor Pages, write an OnPostUpdate method that updates 
+        the existing class using the New Class pattern from the form. */
         public IActionResult OnPostUpdate()
         {
             if (!ModelState.IsValid)

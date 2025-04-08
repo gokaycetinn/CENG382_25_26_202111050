@@ -10,6 +10,7 @@ namespace Week5.Pages
     {
         private static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
         private static int NextId = 1;
+        private static bool IsSeeded = false;
 
         [BindProperty(SupportsGet = true)]
         public string? SearchTerm { get; set; }
@@ -26,10 +27,24 @@ namespace Week5.Pages
 
         public int TotalPages { get; set; }
 
-        /* "Write an OnGet method for Razor Pages that filters by ClassName when the SearchTerm value is entered, 
-        calculates the number of pages according to the total number of records, and lists the data for the relevant page." */
         public void OnGet()
         {
+            
+            if (!IsSeeded)
+            {
+                for (int i = 1; i <= 100; i++)
+                {
+                    ClassList.Add(new ClassInformationModel
+                    {
+                        Id = NextId++,
+                        ClassName = $"Class {i}",
+                        StudentCount = 10 + (i % 30),
+                        Description = $"Description-generated class {i}"
+                    });
+                }
+                IsSeeded = true;
+            }
+
             var query = ClassList.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(SearchTerm))
@@ -46,11 +61,10 @@ namespace Week5.Pages
                 .ToList();
         }
 
-       public IActionResult OnPostAdd()
-{
+        public IActionResult OnPostAdd()
+        {
             if (!ModelState.IsValid)
             {
-                
                 return Page();
             }
 
@@ -68,8 +82,6 @@ namespace Week5.Pages
             return RedirectToPage(new { PageNumber, SearchTerm });
         }
 
-        /*"Write the OnPostEdit method to find the element with the specified ID and display 
-        the relevant information in the form for editing." */
         public IActionResult OnPostEdit(int id)
         {
             var item = ClassList.FirstOrDefault(c => c.Id == id);
@@ -84,15 +96,13 @@ namespace Week5.Pages
                 };
             }
 
-            
             return Page();
         }
 
-       public IActionResult OnPostUpdate()
-{
+        public IActionResult OnPostUpdate()
+        {
             if (!ModelState.IsValid)
             {
-                
                 return Page();
             }
 
@@ -108,4 +118,3 @@ namespace Week5.Pages
         }
     }
 }
-

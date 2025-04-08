@@ -115,25 +115,30 @@
                 <!-- "Write Razor code that creates a dynamic pagination control so that the search filter 
                 is preserved and the current page information is displayed." -->
                 
-                <div class="d-flex justify-content-start mb-3">
-                    <div>
-                        <form method="get" class="d-inline">
-                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
-                            <input type="hidden" name="PageNumber" value="@(Model.PageNumber - 1)" />
-                            <button class="btn btn-outline-light" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
-                        </form>
-
-                        <form method="get" class="d-inline">
-                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
-                            <input type="hidden" name="PageNumber" value="@(Model.PageNumber + 1)" />
-                            <button class="btn btn-outline-light" @(Model.PagedClasses.Count < 10 ? "disabled" : "")>Next</button>
-                        </form>
+                <!-- Pagination Controls -->
+                    <div class="d-flex justify-content-center mb-3">
+                        <nav>
+                            <ul class="pagination">
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                        <form method="get" class="d-inline">
+                                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+                                            <input type="hidden" name="PageNumber" value="@i" />
+                                            <button type="submit" class="page-link">@i</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
                     </div>
-                </div>
 
-                <div class="text-center mb-3">
-                    <span>Page @Model.PageNumber</span>
-                </div>
+                    <div class="text-center mb-3">
+                        <span>Page @Model.PageNumber of @Model.TotalPages</span>
+                    </div>
+
+
+                
             </div>
         </div>
     </div>

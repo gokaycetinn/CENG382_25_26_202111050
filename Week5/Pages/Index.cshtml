@@ -69,21 +69,36 @@
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
+                
+               <div class="d-flex gap-2 mb-2">
+                <form method="post" asp-page-handler="ExportAll" class="d-inline">
+                    <button type="submit" class="btn btn-success" id="exportJsonBtn">Export All JSON</button>
+                </form>
+
+                <form method="post" asp-page-handler="ExportSelected" id="exportSelectedForm" class="d-inline">
+                    <input type="hidden" name="SelectedColumns" value="" id="selectedColumnsInput" />
+                    <button type="button" class="btn btn-warning" onclick="submitSelectedColumns()">Export Selected</button>
+                </form>
+            </div>
 
                 <table class="table table-dark table-striped table-bordered">
-                    <thead>
-                        <tr>
-                             @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
-                             {
-                                <th>ID</th>
-                             }
                     
-                            <th>Class Name</th>
-                            <th>Student Count</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    <form id="exportSelectedForm" method="post" asp-page-handler="ExportSelected">
+                        <input type="hidden" name="SelectedColumns" value="" id="selectedColumnsInput" />
+                        <thead>
+                            <tr>
+                                @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
+                                {
+                                    <th class="selectable-header" data-column="Id">ID</th>
+                                }
+                                <th class="selectable-header" data-column="ClassName">Class Name</th>
+                                <th class="selectable-header" data-column="StudentCount">Student Count</th>
+                                <th class="selectable-header" data-column="Description">Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </form>
+
                     <tbody>
                         @foreach (var item in Model.PagedClasses)
                         {
@@ -137,10 +152,40 @@
                         <span>Page @Model.PageNumber of @Model.TotalPages</span>
                     </div>
 
-
-                
             </div>
         </div>
     </div>
+
+
+    <!--Add a JavaScript function that allows users to select specific columns.
+    When the user clicks on a column, that column will become selected and a style change will be made. -->
+    <script>
+    const selectedColumns = new Set();
+    document.querySelectorAll(".selectable-header").forEach(header => {
+        header.style.cursor = "pointer";
+        header.addEventListener("click", () => {
+            const column = header.getAttribute("data-column");
+            if (selectedColumns.has(column)) {
+                selectedColumns.delete(column);
+                header.classList.remove("bg-info", "text-white");
+            } else {
+                selectedColumns.add(column);
+                header.classList.add("bg-info", "text-white");
+            }
+        });
+    });
+
+    function submitSelectedColumns() {
+        if (selectedColumns.size === 0) {
+            alert("Please select at least one column.");
+            return;
+        }
+
+        document.getElementById("selectedColumnsInput").value = Array.from(selectedColumns).join(",");
+        document.getElementById("exportSelectedForm").submit();
+    }
+</script>
+
+    
 </body>
 </html>

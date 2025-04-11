@@ -1,14 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Week5.Models;
+using Week5.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace Week5.Pages
 {
     public class IndexModel : PageModel
     {
-        private static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
+        
+         private static List<ClassInformationModel> ClassList = new List<ClassInformationModel>();
+
+        
+        public static List<ClassInformationModel> GetClassList()
+        {
+            return ClassList;
+        }
+
+    // Public getter for filtered list
+    public static List<ClassInformationModel> GetFilteredList(string? searchTerm)
+    {
+        var query = ClassList.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(c => c.ClassName.Contains(searchTerm, System.StringComparison.OrdinalIgnoreCase));
+        }
+        return query.ToList();
+    }
         private static int NextId = 1;
         private static bool IsSeeded = false;
 
@@ -62,6 +82,8 @@ namespace Week5.Pages
                 .Skip((PageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
+
+
         }
 
         public IActionResult OnPostAdd()
@@ -123,5 +145,54 @@ namespace Week5.Pages
 
             return RedirectToPage(new { PageNumber, SearchTerm });
         }
-    }
+        /* Create a POST method, get all the data and convert it to JSON format. 
+        Convert the JSON data to a file and present it to the user for download. 
+        Set the name of the file to 'all_classes.json'*/
+        public IActionResult OnPostExportAll()
+        {
+            var allData = GetClassList();
+            var json = Utilities.Utils.Instance.ExportToJson(allData);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+            return File(bytes, "application/json", "all_classes.json");
+        }
+        /* Create a POST method, take a SelectedColumns parameter to get the columns selected by the user.
+        Create a project that contains only the selected columns.
+        Export this project in JSON format and present the JSON file to the user to download."*/
+       public IActionResult OnPostExportSelected(string SelectedColumns)
+        {
+            if (string.IsNullOrWhiteSpace(SelectedColumns))
+            {
+                TempData["Error"] = "Please select at least one column to export.";
+                return RedirectToPage(new { PageNumber, SearchTerm });
+            }
+
+            var selectedList = SelectedColumns.Split(',').ToList();
+
+            var allData = GetClassList(); // tüm 100 veri
+            var projected = allData.Select(item =>
+            {
+                var dict = new Dictionary<string, object>();
+
+                if (selectedList.Contains("Id"))
+                    dict["Id"] = item.Id;
+                if (selectedList.Contains("ClassName"))
+                    dict["ClassName"] = item.ClassName;
+                if (selectedList.Contains("StudentCount"))
+                    dict["StudentCount"] = item.StudentCount;
+                if (selectedList.Contains("Description"))
+                    dict["Description"] = item.Description;
+
+                return dict;
+            }).ToList();
+
+            var json = Utilities.Utils.Instance.ExportToJson(projected);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+
+            return File(bytes, "application/json", "selected_columns.json");
+        }
+
+
+      
+}
+
 }

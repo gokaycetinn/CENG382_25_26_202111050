@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
+      "Id": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json",
+      "PackagePath": "staticwebassets\\data\\users.json"
+    },
+    {
       "Id": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },

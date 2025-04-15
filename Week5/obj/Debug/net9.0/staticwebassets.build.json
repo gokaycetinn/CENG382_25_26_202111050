@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iLylAVlVB8pjGkLXArp/a5qAhGxL9Yp53MSxG6SCdSI=",
+  "Hash": "Qj9f2c9Nn+Rca4oOeKz85s6g8Jkpgsix9W9JEVDEnqE=",
   "Source": "Week5",
   "BasePath": "_content/Week5",
   "Mode": "Default",
@@ -456,6 +456,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Identity": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\d4a2xdzo7d-n9o9hq9mii.gz",
+      "SourceId": "Week5",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Week5",
+      "RelativePath": "data/users#[.{fingerprint=n9o9hq9mii}]?.json.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "19rtr3vu3j",
+      "Integrity": "y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json"
     },
     {
       "Identity": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\dqvah208hg-493y06b0oq.gz",
@@ -1422,6 +1443,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json",
+      "SourceId": "Week5",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\",
+      "BasePath": "_content/Week5",
+      "RelativePath": "data/users#[.{fingerprint}]?.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n9o9hq9mii",
+      "Integrity": "5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\data\\users.json"
     },
     {
       "Identity": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\favicon.ico",
@@ -3022,6 +3064,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\d4a2xdzo7d-n9o9hq9mii.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.007633587786"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "130"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "170"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json.gz",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\d4a2xdzo7d-n9o9hq9mii.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.n9o9hq9mii.json",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\d4a2xdzo7d-n9o9hq9mii.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.007633587786"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "130"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n9o9hq9mii"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.n9o9hq9mii.json",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\wwwroot\\data\\users.json",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "170"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n9o9hq9mii"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5bN1yOavNnSX9e6ZnxIHi98gztEiCHm4VJTq++xiM5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.n9o9hq9mii.json.gz",
+      "AssetFile": "C:\\Users\\gokay\\OneDrive\\Documents\\GitHub\\CENG382_25_26_202111050-1\\Week5\\obj\\Debug\\net9.0\\compressed\\d4a2xdzo7d-n9o9hq9mii.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "130"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 15 Apr 2025 09:39:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n9o9hq9mii"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-y3np0eKsV4noFWAyLBtN5ADSPK+Wziz4D6UB1bmdEws="
         }
       ]
     },

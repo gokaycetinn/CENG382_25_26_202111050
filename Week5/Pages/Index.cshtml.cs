@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+
 namespace Week5.Pages
 {
     public class IndexModel : PageModel
@@ -50,9 +51,28 @@ namespace Week5.Pages
         /*Write an OnGet method in Razor Pages that creates 100 sample class records just once, 
         filters by ClassName,calculates the total number of pages based on the page size, 
         and returns the data for the current page. */
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            
+
+            var sessionToken = HttpContext.Session.GetString("token");
+            var sessionUsername = HttpContext.Session.GetString("username");
+            var sessionId = HttpContext.Session.GetString("session_id");
+
+            var cookieToken = Request.Cookies["token"];
+            var cookieUsername = Request.Cookies["username"];
+            var cookieSessionId = Request.Cookies["session_id"];
+
+            if (string.IsNullOrEmpty(sessionToken) ||
+                string.IsNullOrEmpty(sessionUsername) ||
+                sessionToken != cookieToken ||
+                sessionUsername != cookieUsername ||
+                sessionId != cookieSessionId)
+            {
+                return RedirectToPage("/Login");
+            }
+
+
+
             if (!IsSeeded)
             {
                 for (int i = 1; i <= 100; i++)
@@ -83,6 +103,7 @@ namespace Week5.Pages
                 .Take(PageSize)
                 .ToList();
 
+                 return Page();
 
         }
 
@@ -191,6 +212,10 @@ namespace Week5.Pages
             return File(bytes, "application/json", "selected_columns.json");
         }
 
+
+
+
+        
 
       
 }

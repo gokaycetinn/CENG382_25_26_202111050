@@ -26,7 +26,7 @@
             <button type="submit" class="btn btn-danger">Logout</button>
         </form>
     </div>
-    
+
     <div class="container mt-5">
         <div class="row">
             <!-- Add/Edit Class Section -->
@@ -34,23 +34,29 @@
                 <h3 class="mb-4">@(Model.NewClass.Id == 0 ? "Add New Class" : "Edit Class")</h3>
                 <form method="post">
                     <input type="hidden" asp-for="NewClass.Id" />
-                    
+
                     <div class="mb-3">
                         <label class="form-label">Class Name</label>
-                        <input asp-for="NewClass.ClassName" class="form-control" />
-                        <span asp-validation-for="NewClass.ClassName" class="text-danger"></span>
+                        <input asp-for="NewClass.Name" class="form-control" />
+                        <span asp-validation-for="NewClass.Name" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Student Count</label>
-                        <input asp-for="NewClass.StudentCount" class="form-control" type="number" />
-                        <span asp-validation-for="NewClass.StudentCount" class="text-danger"></span>
+                        <input asp-for="NewClass.PersonCount" class="form-control" type="number" />
+                        <span asp-validation-for="NewClass.PersonCount" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <input asp-for="NewClass.Description" class="form-control" />
                         <span asp-validation-for="NewClass.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Is Active</label>
+                        <input asp-for="NewClass.IsActive" type="checkbox" class="form-check-input" />
+                        <span asp-validation-for="NewClass.IsActive" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary" asp-page-handler="@(Model.NewClass.Id == 0 ? "Add" : "Update")">
@@ -69,45 +75,38 @@
                 <h3 class="mb-4">Class List</h3>
 
                 <!-- Filter Form -->
-                <!-- "Create a structure that displays form validation alerts with custom boxes
-                hides the ID column after filtering, and dynamically manipulates the Razor Pages table."-->
-
                 <form method="get" class="d-flex mb-4">
                     <div class="input-group w-50">
                         <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Search...">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
-                
-               <div class="d-flex gap-2 mb-2">
-                <form method="post" asp-page-handler="ExportAll" class="d-inline">
-                    <button type="submit" class="btn btn-success" id="exportJsonBtn">Export All JSON</button>
-                </form>
 
-                <form method="post" asp-page-handler="ExportSelected" id="exportSelectedForm" class="d-inline">
-                    <input type="hidden" name="SelectedColumns" value="" id="selectedColumnsInput" />
-                    <button type="button" class="btn btn-warning" onclick="submitSelectedColumns()">Export Selected</button>
-                </form>
-            </div>
-
-                <table class="table table-dark table-striped table-bordered">
-                    
-                    <form id="exportSelectedForm" method="post" asp-page-handler="ExportSelected">
-                        <input type="hidden" name="SelectedColumns" value="" id="selectedColumnsInput" />
-                        <thead>
-                            <tr>
-                                @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
-                                {
-                                    <th class="selectable-header" data-column="Id">ID</th>
-                                }
-                                <th class="selectable-header" data-column="ClassName">Class Name</th>
-                                <th class="selectable-header" data-column="StudentCount">Student Count</th>
-                                <th class="selectable-header" data-column="Description">Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+                <div class="d-flex gap-2 mb-2">
+                    <form method="post" asp-page-handler="ExportAll" class="d-inline">
+                        <button type="submit" class="btn btn-success" id="exportJsonBtn">Export All JSON</button>
                     </form>
 
+                    <form method="post" asp-page-handler="ExportSelected" id="exportSelectedForm" class="d-inline">
+                        <input type="hidden" name="SelectedColumns" value="" id="selectedColumnsInput" />
+                        <button type="button" class="btn btn-warning" onclick="submitSelectedColumns()">Export Selected</button>
+                    </form>
+                </div>
+
+                <table class="table table-dark table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
+                            {
+                                <th class="selectable-header" data-column="Id">ID</th>
+                            }
+                            <th class="selectable-header" data-column="Name">Class Name</th>
+                            <th class="selectable-header" data-column="PersonCount">Student Count</th>
+                            <th class="selectable-header" data-column="Description">Description</th>
+                            <th class="selectable-header" data-column="IsActive">Is Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         @foreach (var item in Model.PagedClasses)
                         {
@@ -115,11 +114,11 @@
                                 @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
                                 {
                                     <td>@item.Id</td>
-                                 }
-                                
-                                <td>@item.ClassName</td>
-                                <td>@item.StudentCount</td>
+                                }
+                                <td>@item.Name</td>
+                                <td>@item.PersonCount</td>
                                 <td>@item.Description</td>
+                                <td>@(item.IsActive ? "Yes" : "No")</td>
                                 <td>
                                     <form method="post" class="d-inline">
                                         <input type="hidden" name="id" value="@item.Id" />
@@ -135,39 +134,30 @@
                     </tbody>
                 </table>
 
-                <!-- Pagination Controls -->
-                <!-- "Write Razor code that creates a dynamic pagination control so that the search filter 
-                is preserved and the current page information is displayed." -->
-                
-                <!-- Pagination Controls -->
-                    <div class="d-flex justify-content-center mb-3">
-                        <nav>
-                            <ul class="pagination">
-                                @for (int i = 1; i <= Model.TotalPages; i++)
-                                {
-                                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                        <form method="get" class="d-inline">
-                                            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
-                                            <input type="hidden" name="PageNumber" value="@i" />
-                                            <button type="submit" class="page-link">@i</button>
-                                        </form>
-                                    </li>
-                                }
-                            </ul>
-                        </nav>
-                    </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <nav>
+                        <ul class="pagination">
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <form method="get" class="d-inline">
+                                        <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+                                        <input type="hidden" name="PageNumber" value="@i" />
+                                        <button type="submit" class="page-link">@i</button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
 
-                    <div class="text-center mb-3">
-                        <span>Page @Model.PageNumber of @Model.TotalPages</span>
-                    </div>
-
+                <div class="text-center mb-3">
+                    <span>Page @Model.PageNumber of @Model.TotalPages</span>
+                </div>
             </div>
         </div>
     </div>
 
-
-    <!--Add a JavaScript function that allows users to select specific columns.
-    When the user clicks on a column, that column will become selected and a style change will be made. -->
     <script>
     const selectedColumns = new Set();
     document.querySelectorAll(".selectable-header").forEach(header => {
@@ -193,8 +183,6 @@
         document.getElementById("selectedColumnsInput").value = Array.from(selectedColumns).join(",");
         document.getElementById("exportSelectedForm").submit();
     }
-</script>
-
-    
+    </script>
 </body>
 </html>

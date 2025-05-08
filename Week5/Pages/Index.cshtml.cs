@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Week5.Pages
 {
+    [Authorize] 
     public class IndexModel : PageModel
     {
         private readonly SchoolDbContext _context;
@@ -35,41 +37,48 @@ namespace Week5.Pages
         public int TotalPages { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
+{
+    
+    if (!await _context.Classes.AnyAsync())
+    {
+        var sequentialClasses = new List<Class>();
+
+        for (int i = 1; i <= 100; i++)
         {
-            var sessionToken = HttpContext.Session.GetString("token");
-            var sessionUsername = HttpContext.Session.GetString("username");
-            var sessionId = HttpContext.Session.GetString("session_id");
-
-            var cookieToken = Request.Cookies["token"];
-            var cookieUsername = Request.Cookies["username"];
-            var cookieSessionId = Request.Cookies["session_id"];
-
-            if (string.IsNullOrEmpty(sessionToken) ||
-                string.IsNullOrEmpty(sessionUsername) ||
-                sessionToken != cookieToken ||
-                sessionUsername != cookieUsername ||
-                sessionId != cookieSessionId)
+            sequentialClasses.Add(new Class
             {
-                return RedirectToPage("/Login");
-            }
-
-            var query = _context.Classes.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(SearchTerm))
-            {
-                query = query.Where(c => c.Name.Contains(SearchTerm));
-            }
-
-            int totalRecords = await query.CountAsync();
-            TotalPages = (int)System.Math.Ceiling(totalRecords / (double)PageSize);
-
-            PagedClasses = await query
-                .Skip((PageNumber - 1) * PageSize)
-                .Take(PageSize)
-                .ToListAsync();
-
-            return Page();
+                Name = $"Class {i}",
+                PersonCount = i + 10, 
+                Description = $"This is Class {i}.",
+                IsActive = true 
+            });
         }
+
+        _context.Classes.AddRange(sequentialClasses);
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "100 sequential classes have been added successfully!";
+    }
+
+    var query = _context.Classes.AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(SearchTerm))
+    {
+        query = query.Where(c => c.Name.Contains(SearchTerm));
+    }
+
+    int totalRecords = await query.CountAsync();
+    TotalPages = (int)System.Math.Ceiling(totalRecords / (double)PageSize);
+
+    PagedClasses = await query
+        .Skip((PageNumber - 1) * PageSize)
+        .Take(PageSize)
+        .ToListAsync();
+
+    return Page();
+}
+
+        
 
         public async Task<IActionResult> OnPostAddAsync()
         {

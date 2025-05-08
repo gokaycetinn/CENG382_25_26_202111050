@@ -48,5 +48,24 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <style>
+        nav.navbar {
+        width: 100%; /* Tam genişlik */
+        position: fixed; /* Sayfanın en üstüne sabitle */
+        top: 0; /* Üstten sıfır boşluk */
+        z-index: 1000; /* Diğer içeriklerin üstünde görünmesi için */
+        background-color: white; /* Arka plan rengini beyaz yap */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif bir gölge efekti */
+        height: 80px; /* Navbar yüksekliği */
+        display: flex; /* İçeriği hizalamak için flexbox */
+        align-items: center; /* İçeriği dikey olarak ortala */
+        padding: 0 20px; 
+    }
+    body {
+        padding-top: 56px; /* Navbar yüksekliği kadar boşluk bırak */
+    }
+    </style>
+
 </body>
 </html>

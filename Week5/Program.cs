@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Week5.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddSession();
 // Add and configure the database context
 builder.Services.AddDbContext<SchoolDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDbConnection")));
+
+// Add Identity services
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<SchoolDbContext>();
 
 var app = builder.Build();
 
@@ -26,6 +32,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession(); 
 
@@ -35,5 +42,5 @@ app.MapRazorPages()
 
 app.Run();
 
-   
+
 
